@@ -68,7 +68,7 @@ local user_dict = {
         for _, tuple in ipairs(box.space.users:select(nil,
                 {limit = limit, offset = offset})) do
             local ok, user = self.user_model.unflatten(tuple)
-            table.remove(user, 6)
+            user['password'] = nil
             table.insert(result, user)
         end
         return result
