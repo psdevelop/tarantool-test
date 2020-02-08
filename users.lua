@@ -1,6 +1,12 @@
+-- Module users
+-- Модуль содержащий функции извлечения
+-- данных из Tarantool для REST API
+-- методов для сущности user
+-- author Poltarokov SP 08.02.2020
 local avro = require('avro_schema')
 local log = require('log')
 
+-- AVRO схема
 local schema = {
     user = {
         type="record",
