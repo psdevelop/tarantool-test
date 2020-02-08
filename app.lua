@@ -8,8 +8,10 @@ local json = require('json')
 box.cfg{listen=3301}
 users:start()
 
-if users:length() == 0 then
-    for n = 1, 100 do
+local user_count = users:length()
+
+if user_count < 100 then
+    for n = user_count + 1, 100 do
         users:add({
             id = n,
             first_name = "first_name" .. n,
@@ -22,8 +24,8 @@ if users:length() == 0 then
 end
 
 function get_users(request)
-    local offset = request:stash('offset')
-    local limit = request:stash('limit')
+    local limit = tonumber(request:stash('limit'))
+    local offset = tonumber(request:stash('page')) * limit
     local body = json.encode(users:get_page(offset, limit))
 
     return {status = 200, body = body}
@@ -37,7 +39,7 @@ local httpd = http_server.new('127.0.0.1', 8083, {
 local router = http_router.new()
     :route({
             method = 'GET',
-            path = '/users/:offset/:limit',
+            path = '/users/:page/:limit',
         },
         get_users
     )

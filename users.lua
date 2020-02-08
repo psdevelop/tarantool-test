@@ -59,8 +59,8 @@ local user_dict = {
     -- with offset and limit
     get_page = function(self, offset, limit)
         local result = {}
-        for _, tuple in box.space.users:select(nil,
-                {limit = limit, offset = offset}) do
+        for _, tuple in ipairs(box.space.users:select(nil,
+                {limit = limit, offset = offset})) do
             local ok, user = self.user_model.unflatten(tuple)
             table.remove(user, 6)
             table.insert(result, user)
