@@ -37,7 +37,11 @@ function get_users(request)
     local offset = tonumber(request:stash('page')) * limit
     local body = json.encode(users:get_page(offset, limit))
 
-    return {status = 200, body = body}
+    return {
+        status = 200,
+        headers = { ['content-type'] = 'application/json' }, 
+        body = body
+    }
 end
 
 -- Объект web-сервера
